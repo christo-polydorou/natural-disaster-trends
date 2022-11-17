@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<link rel="stylesheet" href="../static/wholeSiteStyle.css">
+	<title>US Natural Disaster Archive Viewer</title>
+
+	<!-- Fetch chart.js -->
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.3.0/chart.min.js" integrity="sha512-yadYcDSJyQExcKhjKSQOkBKy2BLDoW6WnnGXCAkCoRlpHGpYuVuBqGObf3g/TdB86sSbss1AOP4YlGSb6EKQPg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	
+	<script>
+			/*Populating adapted from https://stackoverflow.com/questions/9895082/javascript-populate-drop-down-list-with-array*/
+			function populateYearList(elementId, startYear, endYear, defaultYear) {
+				/*
+				 * Appends a series of option elements into the provided dropdown within a range
+				 * 
+				 * params:
+				 * 		elementId - what item we should append the checkboxes to
+				 * 		startYear - what year to start at (inclusive)
+				 *		endYear - what year to end at (inclusive)
+				 *		defaultYear - what year to select by default
+				 */
+				 
+				var select = document.getElementById(elementId);
+			
+				for(var i = startYear; i <= endYear; i++) {
+					var el = document.createElement("option");
+					el.textContent = i;
+					el.value = i;
+					if (i == defaultYear) el.selected = true;
+					select.appendChild(el);
+				}
+			}
+	
+			function populateCheckboxes(elementId, optionIdList, optionTextEntryList, uncheckTarget) {
+				/*
+				 * Appends a series of input item checkboxes onto the end of a given element
+				 * 
+				 * params:
+				 * 		elementId - what item we should append the checkboxes to
+				 * 		optionIdList - a list of ids to assign to each object created
+				 *		optionTextEntryList - a list of what text to display next to each checkbox
+				 *		uncheckTarget - what checkbox ID to uncheck when any populated box is clicked (optional)
+				 */
+				
+				var select = document.getElementById(elementId);
+				
+				for(var i = 0; i < optionIdList.length; i++) {
+					el = document.createElement("input");
+					el.type = "checkbox";
+					var checkboxName = optionIdList[i];
+					el.name = checkboxName;
+					el.value = optionIdList[i];
+					el.checked = 'true';
+					if (uncheckTarget != undefined) {
+						el.setAttribute('onclick','uncheckTargetBox(uncheckTarget);'); // for FF
+						el.onclick = function() {uncheckTargetBox(uncheckTarget);}; // for IE
+					}
+					select.appendChild(el);
+					select.insertAdjacentHTML( 'beforeend', " " + optionTextEntryList[i] + "<br />");
+				}
+			}
+			
+			function checkAllBoxesInContainer(container) {
+			    /*
+			     * Checks all of the boxes in a given container
+			     * 
+			     * params:
+			     * 		container - which container to check all the boxes in
+			     */ 
+				var checkboxList = document.getElementById(container);
+				var listItem = checkboxList.getElementsByTagName("input");
+				
+				for (const box of listItem){
+					if (box.type != 'checkbox')
+						continue;
+					box.checked = 'TRUE';
+				}
+			}
+			
+			function setAllBoxesInContainer(container, referenceCheckboxID) {
+			    /*
+			     * Sets all of the boxes in a given container
+			     * 
+			     * params:
+			     * 		container - which container to check all the boxes in
+			     *		referenceCheckboxID - what other checkbox to look at to set the rest to
+			     */ 
+			    var referenceCheckbox = document.getElementById(referenceCheckboxID);
+				var checkboxList = document.getElementById(container);
+				var listItem = checkboxList.getElementsByTagName("input");
+				
+				for (const box of listItem){
+					if (box.type != 'checkbox')
+						continue;
+					box.checked = referenceCheckbox.checked;
+				}
+			}
+			
+			function uncheckTargetBox(boxId) {
+				// unchecks the box with the provided ID
+				document.getElementById(boxId).checked = false;
+			}
+		</script>
+</head>
+
+<body>
+    <!-- Header + navigation panel -->
+	<div>
+        <h1><a href="/"> U.S. Natural Disaster Archive Viewer</a></h1>
+		<div class="margin">
+			<nav>
+				<ul>
+                    <li><a href="/">HOME</a></li>
+                    <li><a href="/aboutdata">ABOUT THE DATA</a></li>
+				</ul>
+
+			</nav>
+		</div>
+	</div>
+    <form action="results" method="post">
+	<div class="parallax"></div>
+
+	<!-- Chart displayer -->
+	<div class="margin">
+		<p>
+			<h2>
+			This site is a database of all Federal Emergency Management Agency (FEMA)-declared US natural disasters from 1953 to 2021.
+			</h2>
+			<h2>
+		With the button below you can generate a graphical representation of the data with the variables of your choice!
+			</h2>
+		</p>
+	<div>
+
+	<div>
+		<ul class="dropdown dataSelector">
+			<li>
+				<h3>Horizontal Axis Variable:</h3>
+				<select type="text" name="horizontalAxis" id="horizontalAxis">
+					<option value="declarationYear" id="declarationYear" name="Year">Year</option>
+					<option value="incidentType" id="incidentType" name="Disaster Type">Disaster Type</option>
+					<option value="state" id="state" name="State">State</option>
+                    <option value="declarationType" id="declarationType" name="Declaration Type">Declaration Type</option>
+				</select>
+			</li>
+		</ul>
+	<div>
+
+
+	<div>
+		<ul class="dropdown dataSelector">
+			<li>
+				<h3>From Year:</h3>
+				<select type="text" name="startYear" id="startYear">
+					<script>populateYearList('startYear', 1953, 2021, 1953)</script>
+				</select>
+			</li>
+			  
+			<li>
+				<h3>To Year:</h3>
+				<select type="text" name="endYear" id="endYear">
+					<script>populateYearList('endYear', 1953, 2021, 2021)</script>
+				</select>
+			</li>
+		</ul>
+	<div>
+	
+	<div>
+		<ul class="dropdown dataSelector">
+			<li>
+				<h3>Sort Order:</h3>
+				<select type="text" name="graphSort" id="graphSort">
+					<option value="defaultSort" id="defaultSort" selected>Default</option>
+					<option value="ascendingSort" id="ascendingSort">Ascending</option>
+					<option value="descendingSort" id="descendingSort">Descending</option>
+				</select>
+			</li>
+		</ul>
+	</div>
+	
+	<div class="big button">
+		<button type="submit" class="big square">Generate Graph!</button>
+	</div>
+
+	<!-- Show/Hide Script and Button adapted from here: https://html-shark.com/HTML/ShowHideSections.htm -->
+	
+	<input type="checkbox" name="advancedSettingsView" id="advancedSettingsView" style="display:none;" />
+	
+	<div class="small button">
+		<BUTTON ID="showAdvancedSettings" type="button" class="square" VALUE="Show Advanced Settings" ONCLICK="
+		document.getElementById('showAdvancedSettings').style.display='none';
+		document.getElementById('hideAdvancedSettings').style.display='block';
+		document.getElementById('AdvancedSettings').style.display='block';
+		document.getElementById('advancedSettingsView').checked = 'true'">
+			Show Advanced Settings
+		</button>
+
+		<BUTTON ID="hideAdvancedSettings" type="button" class="square" style="display:none" VALUE="Hide Advanced Settings" ONCLICK="
+		document.getElementById('showAdvancedSettings').style.display='block';
+		document.getElementById('hideAdvancedSettings').style.display='none';
+		document.getElementById('AdvancedSettings').style.display='none';
+		document.getElementById('advancedSettingsView').checked = 'false'">
+		  	Hide Advanced Settings
+		</button>
+	</div>
+
+	<!-- Scrollable checkboxes adapted from Samich here: https://stackoverflow.com/questions/7280389/scrollable-box-containing-list-of-checkboxes-in-html -->
+    <div id="AdvancedSettings" style="display:none">
+			<ul class="dataSelector">
+				<li id="filterStates">
+					<h3>Filter State(s)</h3>
+					<div class="container" id="selectStates">
+							<input type="checkbox" name="allStates" id="allStates" checked ONCLICK="setAllBoxesInContainer('selectStates', 'allStates');" /> 
+                            ALL STATES<br />
+							<script>
+								var stateIdList = ["AK","AL","AR","AS","AZ","CA","CO","CT","DC","DE","FL","GA","GU","HI","IA","ID","IL","IN","KS","KY","LA","MA","MD","ME","MI","MN","MO","MS","MT","NC","ND","NE","NH","NJ","NM","NV","NY","OH","OK","OR","PA","PR","RI","SC","SD","TN","TX","UT","VA","VI","VT","WA","WI","WV","WY"];
+								var stateTextList = ["AK - Alaska", "AL - Alabama", "AR - Arkansas", "AS - American Samoa", "AZ - Arizona", "CA - California", "CO - Colorado", "CT - Connecticut", "DC - District of Columbia", "DE - Delaware", "FL - Florida", "GA - Georgia", "GU - Guam", "HI - Hawaii", "IA - Iowa", "ID - Idaho", "IL - Illinois", "IN - Indiana", "KS - Kansas", "KY - Kentucky", "LA - Louisiana", "MA - Massachusetts", "MD - Maryland", "ME - Maine", "MI - Michigan", "MN - Minnesota", "MO - Missouri", "MS - Mississippi", "MT - Montana", "NC - North Carolina", "ND - North Dakota", "NE - Nebraska", "NH - New Hampshire", "NJ - New Jersey", "NM - New Mexico", "NV - Nevada", "NY - New York", "OH - Ohio", "OK - Oklahoma", "OR - Oregon", "PA - Pennsylvania", "PR - Puerto Rico", "RI - Rhode Island", "SC - South Carolina", "SD - South Dakota", "TN - Tennessee", "TX - Texas", "UT - Utah", "VA - Virginia", "VI - Virgin Islands", "VT - Vermont", "WA - Washington", "WI - Wisconsin", "WV - West Virginia", "WY - Wyoming"];
+								populateCheckboxes('selectStates', stateIdList, stateTextList, 'allStates');
+							</script>
+
+
+						
+					</div>
+				</li>
+				
+				<li id="filterDisasters">
+					<h3>Filter Disasters(s)</h3>
+					<div class="container" id="selectDisasters">
+						<input type="checkbox" name="allDisasters" id="allDisasters" checked ONCLICK="setAllBoxesInContainer('selectDisasters', 'allDisasters');"/> ALL DISASTERS <br />
+						
+						<script>
+							var disasterList = ['Biological','Chemical','Coastal Storm','Dam/Levee Break','Drought','Earthquake','Fire','Fishing Losses','Flood','Freezing','Human Cause','Hurricane','Mud/Landslide','Other','Severe Ice Storm','Severe Storm(s)','Snow','Terrorist','Tornado','Toxic Substances','Tsunami','Typhoon','Volcano']
+							populateCheckboxes('selectDisasters', disasterList, disasterList, 'allDisasters');
+						</script>
+					
+					</div>
+				</li>
+				<li id="filterDeclarationTypes">
+					<h3>Filter Declaration Type(s)</h3>
+					<div class="container" id="selectDeclarationTypes">
+						<input type="checkbox" name="allDeclarations" id="allDeclarations" checked ONCLICK="setAllBoxesInContainer('selectDeclarationTypes', 'allDeclarations');"/> ALL DECLARATIONS <br />
+						
+						<script>
+							var declarationIdList = ['DR','EM','FM']
+							var declarationTextList = ['DR - Major Disaster','EM - Emergency Management','FM - Fire Management']
+							populateCheckboxes('selectDeclarationTypes', declarationIdList, declarationTextList, 'allDeclarations');
+						</script>
+					</div>
+				</li>
+			</ul>
+			
+			<input type="checkbox" name="tableView" id="tableView" style="display:none;" />
+			
+			<div class="small button">
+				<BUTTON ID="showTable" type="button" class="square" VALUE="Show Results as a Table" ONCLICK="
+				document.getElementById('showTable').style.display='none';
+				document.getElementById('showGraph').style.display='block';
+				document.getElementById('tableView').checked = true">
+					Show Results as a Table
+				</button>
+
+				<BUTTON ID="showGraph" type="button" class="square" style="display:none" VALUE="Show Results as a Graph" ONCLICK="
+				document.getElementById('showTable').style.display='block';
+				document.getElementById('showGraph').style.display='none';
+				document.getElementById('tableView').checked = false">
+				  	Show Results as a Graph
+				</button>
+			</div>	
+			
+		</div>
+	</div>
+	
+	<footer>
+		<hr>
+		Abdullah Siddiqui, Christo Polydorou, Oliver Tullio<br>
+		Software Design Spring 2021<br>
+		Carleton College<br>
+	</footer>
+</form>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title> About Data </title>
+		<link rel="stylesheet" href="../static/wholeSiteStyle.css">
+	</head>
+	<body>
+		<!-- Header + navigation panel -->
+		<div>
+			<!--
+            <form action="homePage">
+                <button type="submit" name="home" value="home" class="header"><h1>US Natural Disaster Archive Viewer</h1></button>
+             </form>
+            -->
+            <h1><a href="/"> U.S. Natural Disaster Archive Viewer</a></h1>
+			<div class="margin">
+				<nav>
+                <ul>
+    				<!--
+                    <form action="homePage">
+                        <li><button type="submit" name="home" value="home" class="btn-link">HOME</button></li>
+                    </form>
+                    <form action="aboutData">
+                        <li><button type="submit" name="about" value="about" class="btn-link">ABOUT THE DATA</button></li>
+                    </form>
+                    -->
+                    <li><a href="/">HOME</a></li>
+                    <li><a href="/aboutdata">ABOUT THE DATA</a></li>
+				</ul>
+				</nav>
+			</div>
+		</div>
+
+		<div class="margin">
+		    <h2 id="about"> About the Data</h2>
+		    <p>
+		    	Our dataset contains all federally declared disasters in the United States from 1953 to 2021. The original dataset is from <a href="fema.gov"> fema.gov</a> but we used a refined version from user "Heads or Tails" on <a href="Kaggle.com"> Kaggle.com</a>.
+		    </p>
+		    <h2 id="modifications"> Modifications to Original Dataset</h2>
+		    <p>
+		    	We removed the following columns from the dataset: disaster_closeout_date, place_code, declaration_request_number, last_refresh, and hash.
+		    </p>
+		  	<h2 id="licensing"> Licensing </h2>
+		  	<p>
+		    The data was retrieved on 4/16/21. This product uses the Federal Emergency Managemen Agency's API, but is not endorsed by FEMA.
+		    </p>
+		    <h2 id="Citation"> Citation</h2>
+		    <p>
+		    	US Natural Disasters Declarations, Version 34, retrieved 4/16/21 from <a href="https://www.kaggle.com/headsortails/us-natural-disaster-declarations"> https://www.kaggle.com/headsortails/us-natural-disaster-declarations</a>
+		    </p>
+		    <h2 id="source"> Sources </h2>
+		    <p>
+		    	FEMA dataset: <a href="https://www.fema.gov/openfema-data-page/disaster-declarations-summaries-v2"> https://www.fema.gov/openfema-data-page/disaster-declarations-summaries-v2</a>
+		    </p>
+		    <p>
+		    	Kaggle dataset: <a href="https://www.kaggle.com/headsortails/us-natural-disaster-declarations"> https://www.kaggle.com/headsortails/us-natural-disaster-declarations</a>
+		    </p>
+		</div>
+	  
+		<div class="margin">
+			<footer>
+				<hr>
+				Abdullah Siddiqui, Christo Polydorou, Oliver Tullio<br>
+				Software Design Spring 2021<br>
+				Carleton College<br>
+			</footer>
+		</div>
+	</body>
+</html>

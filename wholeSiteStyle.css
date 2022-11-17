@@ -1,0 +1,282 @@
+/*General formatting*/
+
+body {
+	background-color: beige;
+	font-family: Helvetica, Arial, sans-serif;
+	margin: 0;
+}
+
+div.margin {
+	margin-left: auto;
+  	margin-right: auto;
+  	width: 80%;
+}
+table {
+  display: block;
+  height: 500px;
+  width: 100%;
+  overflow-y: scroll;
+}
+
+table, td {
+  border: 1px solid black;
+	border-collapse: collapse;
+}
+
+td {
+  padding: 15px;
+  text-align: left;
+}
+
+canvas {
+	height: 500px;
+	background-color: #fafae6;
+	padding-right: 1%;
+	padding-left: 1%;
+}
+
+img {
+	display: block;
+  	margin-left: auto;
+  	margin-right: auto;
+  	width: 100%;
+}
+
+/* Parallax adapted from https://www.w3schools.com/howto/howto_css_parallax.asp  */
+.parallax {
+	background-image: url("forestFires.jpg"); /* Image from https://fee.org/articles/forest-fires-aren-t-at-historic-highs-in-the-united-states-not-even-close/ */
+	min-height: 400px;
+	background-attachment: fixed;
+  	background-position: center;
+  	background-repeat: no-repeat;
+  	background-size: cover;
+  	position: relative;
+  	top: -20px;
+  	margin: 0px;
+  	margin-bottom: -20px;
+}
+
+/* Turn off parallax scrolling for all tablets and phones. Increase/decrease the pixels if needed */
+@media only screen and (max-device-width: 1366px) {
+  .parallax {
+    background-attachment: scroll;
+  }
+}
+
+/* Footer */
+footer {
+	font-size: 14px;
+	color: grey;
+	width: 100%;
+}
+
+/*Navigation Panel */
+
+h1 {
+
+    padding-top: 1em;
+    padding-bottom: 1em;
+    background-color: #0e3327;
+    color: white;
+    text-align: center;
+    font-size: 40px;
+    margin: 0;
+	text-decoration: none;
+	transition-duration: 0.4s;
+}
+
+h1 a {
+	text-decoration: none;
+  	color: white;
+	transition-duration: 0.4s;
+
+}
+
+h1 a:hover {
+	text-decoration: none;
+  	color: #567060;
+}
+
+nav: hover {
+	text-decoration: none;
+  	color: #728777;
+
+}
+
+
+nav {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+    text-align: center;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 24px
+}
+
+nav ul {
+	margin-top: 0px;
+}
+
+nav li {
+    display: inline;
+}
+
+nav a {
+    display: inline-block;
+    color: #0e3327;
+    text-decoration: none;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    transition-duration: 0.4s;
+}
+
+nav li a:hover {
+    color: white;
+    background-color: #0e3327;
+}
+
+/*nav button {
+	all: unset;
+	display: inline-block;
+    color: #0e3327;
+    text-decoration: none;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    transition-duration: 0.4s;
+}
+
+nav button:hover {
+	color: white;
+    background-color: #0e3327;
+}
+*/
+/* Scrollable checkboxes adapted from Samich here: https://stackoverflow.com/questions/7280389/scrollable-box-containing-list-of-checkboxes-in-html */
+
+.container {
+	border: 1px solid #0e3327;
+	border-radius: 2px;
+	width: 250px;
+	height: 90px; /*intentionally half a line so people know you can scroll b/c scrollbar is hidden in chrome by default */
+	overflow-y: scroll;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+h3 {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+
+.dataSelector {
+	padding-inline-start: 0px;
+	margin-right: auto;
+	margin-left: auto;
+	text-align: center;
+}
+
+.dataSelector ul {
+  	margin-top: 10px;
+  	overflow: hidden;
+	list-style-type: none;
+
+}
+
+.dataSelector li {
+	list-style: none;
+	display: inline;
+	margin-right: auto;
+	margin-left: auto;
+	text-align: left;
+	display: inline-block;
+}
+
+.dataSelector.dropdown {
+	width: 100%;
+	margin-right: auto;
+	margin-left: auto;
+	text-align: center;
+}
+
+.dataSelector h3 {
+	display: inline-block;
+	margin-left: auto;
+	margin-right: auto;
+
+}
+
+/* Generate Graph button! */
+
+div.button {
+	margin-left: auto;
+  	margin-right: auto;
+}
+
+div.button.big {
+  	width: 50%;
+}
+
+div.button.small {
+  	width: 30%;
+}
+
+button.square {
+	border: none;
+	background-color: #fafae1;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-right: 30px;
+	padding-left: 30px;
+	width: 100%;
+	text-align: center;
+	text-decoration: none;
+	color: black;
+	font-size: 20px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border: 2px solid #0e3327;
+	transition-duration: 0.4s;
+	box-shadow: 4px 4px #909090;
+}
+
+button.square:hover {
+	background-color: #0e3327;
+	color: white;
+	box-shadow: 3px 3px #909090;
+}
+
+button.square:active {
+	transition-duration: 0s;
+	box-shadow:2px 2px #909090;
+}
+
+button.big {
+	font-size: 32px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+button.header {
+	all: unset;
+	color: white;
+	background-color: #0e3327;
+	text-align: center;
+	font-size: 40px;
+	margin: 0;
+	text-decoration: none;
+	width: 100%;
+
+}
+
+button.header:hover{
+	color:white;
+		transition-duration: 0.45;
+}
+
+form {
+	all: unset;
+}
